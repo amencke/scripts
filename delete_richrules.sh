@@ -34,7 +34,8 @@ for ZONE in $(firewall-cmd --get-zones); do
                         ;;
                 esac
         fi
-
+        rm -f ${ZONE}_rules
+        
 done
 echo
 echo "All done - have a nice day :)"
