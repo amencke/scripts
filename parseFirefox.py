@@ -1,6 +1,7 @@
 #This is from a Python book I was reading 
 #It prints out details about your downloads, google searches, and history from firefox
-#Depending on the version of FF you use it probably won't work
+#Depending on the version of FF you use it might not work
+#You can find your FF profile directory using something like "find / -name cookies.sqlite -print"
 
 import re
 import optparse
