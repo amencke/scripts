@@ -43,7 +43,7 @@ for ZONE in $(firewall-cmd --get-zones); do
                 case ${DECISION:0:1} in
                         y|Y)
                                 cat ${ZONE}_rules | while read LINE; do
-                                        case OPTION in
+                                        case $OPTION in
                                                 -p)
                                                         firewall-cmd --permanent --remove-rich-rule="$LINE" --zone=$ZONE
                                                         ;;
