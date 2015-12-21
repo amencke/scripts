@@ -6,6 +6,15 @@ case $OPTION in
         -h)
                 echo "usage: $0 -h|-p"
                 exit 0
+                ;;
+        -p)
+                echo
+                echo "CAUTION: This will PERMANENTLY delete firewalld rules"
+                echo
+                sleep 3
+                ;;
+        *)
+                ;;
 esac
 
 #First get a list of zones
