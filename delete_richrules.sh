@@ -1,5 +1,13 @@
 #Script to nuke all the rich rules in firewalld
 
+OPTION=$1
+
+case $OPTION in
+        -h)
+                echo "usage: $0 -h|-p"
+                exit 0
+esac
+
 #First get a list of zones
 for ZONE in $(firewall-cmd --get-zones); do
 
@@ -23,19 +31,25 @@ for ZONE in $(firewall-cmd --get-zones); do
                         echo "$LINE"
                 done
                 read -p "Do you want to delete these rules? (y/n)?" DECISION
-                case ${DECISION:0:1} in 
+                case ${DECISION:0:1} in
                         y|Y)
                                 cat ${ZONE}_rules | while read LINE; do
-                                        firewall-cmd --remove-rich-rule="$LINE" --zone=$ZONE
+                                        case OPTION in
+                                                -p)
+                                                        firewall-cmd --permanent --remove-rich-rule="$LINE" --zone=$ZONE
+                                                        ;;
+                                                *)
+                                                        firewall-cmd --remove-rich-rule="$LINE" --zone=$ZONE
+                                                        ;;
+                                        esac
                                 done
-                        ;;
+                                ;;
                         *)
                                 echo "No rules deleted - continuing..."
-                        ;;
+                                ;;
                 esac
         fi
         rm -f ${ZONE}_rules
-        
 done
 echo
 echo "All done - have a nice day :)"
