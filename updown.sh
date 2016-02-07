@@ -26,7 +26,7 @@ for i in $(nmcli con show | cut -d ' ' -f 1 | grep -v '^NAME$'); do
                 esac
 
         elif [ $1 == pub ]; then
-                case $1 in 
+                case $i in 
                         eno9)
                                 nmcli con up $i
                                 ;;
