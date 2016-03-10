@@ -47,11 +47,15 @@ if len(sys.argv) > 1:
             print str(e)
 
     elif sys.argv[1] == "populate":
-        try:
-            cur.execute(popTable)
-            print "Updated DB successfully"
-        except Exception, e:
-            print str(e)
+        count = 0
+        while 1:
+            try:
+                count += 1
+                cur.execute(popTable)
+                print "Updated DB successfully " + str(count) + " times"
+            except Exception, e:
+                print str(e)
+                continue
     else:
         print 'usage: [ create | populate ] '
 else:
