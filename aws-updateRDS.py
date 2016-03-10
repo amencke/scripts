@@ -1,3 +1,5 @@
+#Script to see effect of write loop of different cloudwatch metrics
+
 from pprint import pprint
 from boto import rds
 import pymysql
