@@ -1,0 +1,356 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "CloudFormation template for testing",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "2042eff7-d31c-4904-afb0-4d2358ae7b40": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 60,
+          "y": 660
+        },
+        "z": 1,
+        "embeds": []
+      },
+      "134277d3-ae28-4fe0-adee-acb8f7768173": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 180,
+          "y": 660
+        },
+        "z": 1,
+        "embeds": []
+      },
+      "25941d47-744e-43fd-b23d-43a6f07cc482": {
+        "size": {
+          "width": 600,
+          "height": 510
+        },
+        "position": {
+          "x": 60,
+          "y": 90
+        },
+        "z": 1,
+        "embeds": [
+          "449d42f3-ab6c-4e9b-87d0-4e31735dfb00",
+          "86ff101d-25c4-491b-bd54-638886b2b29f"
+        ]
+      },
+      "449d42f3-ab6c-4e9b-87d0-4e31735dfb00": {
+        "size": {
+          "width": 240,
+          "height": 240
+        },
+        "position": {
+          "x": 90,
+          "y": 150
+        },
+        "z": 2,
+        "parent": "25941d47-744e-43fd-b23d-43a6f07cc482",
+        "embeds": [
+          "6e4b99b6-87a0-4f7c-871a-7d3917d9ad27"
+        ],
+        "dependson": [
+          "25941d47-744e-43fd-b23d-43a6f07cc482"
+        ]
+      },
+      "6e4b99b6-87a0-4f7c-871a-7d3917d9ad27": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 120,
+          "y": 210
+        },
+        "z": 3,
+        "parent": "449d42f3-ab6c-4e9b-87d0-4e31735dfb00",
+        "embeds": [],
+        "references": [
+          "134277d3-ae28-4fe0-adee-acb8f7768173"
+        ],
+        "dependson": [
+          "449d42f3-ab6c-4e9b-87d0-4e31735dfb00"
+        ]
+      },
+      "670c6387-be6a-4860-b5a8-dc761b8c476d": {
+        "source": {
+          "id": "134277d3-ae28-4fe0-adee-acb8f7768173"
+        },
+        "target": {
+          "id": "25941d47-744e-43fd-b23d-43a6f07cc482"
+        }
+      },
+      "86ff101d-25c4-491b-bd54-638886b2b29f": {
+        "size": {
+          "width": 150,
+          "height": 150
+        },
+        "position": {
+          "x": 390,
+          "y": 150
+        },
+        "z": 2,
+        "parent": "25941d47-744e-43fd-b23d-43a6f07cc482",
+        "embeds": [],
+        "dependson": [
+          "25941d47-744e-43fd-b23d-43a6f07cc482"
+        ]
+      },
+      "470cc81e-a503-4165-a68f-bbcf02dbe6d9": {
+        "source": {
+          "id": "449d42f3-ab6c-4e9b-87d0-4e31735dfb00"
+        },
+        "target": {
+          "id": "86ff101d-25c4-491b-bd54-638886b2b29f"
+        }
+      }
+    }
+  },
+  "Parameters": {
+    "InstanceTypeParameter": {
+      "Type": "String",
+      "Default": "t2.micro",
+      "AllowedValues": [
+        "t2.micro",
+        "m1.small",
+        "m1.large"
+      ],
+      "Description": "Enter t1.micro, m1.small, or m1.large. Default is t1.micro."
+    }
+  },
+  "Mappings": {},
+  "Conditions": {},
+  "Resources": {
+    "MyVPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16"
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "25941d47-744e-43fd-b23d-43a6f07cc482"
+        }
+      }
+    },
+    "MyPublicSubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        },
+        "CidrBlock": "10.0.0.0/24"
+      },
+      "DependsOn": "MyVPC",
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "86ff101d-25c4-491b-bd54-638886b2b29f"
+        }
+      }
+    },
+    "MyInternetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {},
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "134277d3-ae28-4fe0-adee-acb8f7768173"
+        }
+      }
+    },
+    "AttachGateway": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        },
+        "InternetGatewayId": {
+          "Ref": "MyInternetGateway"
+        }
+      },
+      "DependsOn": "MyVPC",
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "670c6387-be6a-4860-b5a8-dc761b8c476d"
+        }
+      }
+    },
+    "MyRouteTable": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        }
+      },
+      "DependsOn": "MyVPC",
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "449d42f3-ab6c-4e9b-87d0-4e31735dfb00"
+        }
+      }
+    },
+    "MyRouteOut": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "GatewayId": {
+          "Ref": "MyInternetGateway"
+        },
+        "RouteTableId": {
+          "Ref": "MyRouteTable"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0"
+      },
+      "DependsOn": [
+        "MyRouteTable"
+      ],
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "6e4b99b6-87a0-4f7c-871a-7d3917d9ad27"
+        }
+      }
+    },
+    "MyPublicSubnetAttacher": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "MyPublicSubnet"
+        },
+        "RouteTableId": {
+          "Ref": "MyRouteTable"
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "470cc81e-a503-4165-a68f-bbcf02dbe6d9"
+        }
+      }
+    },
+    "MyEC2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-31328842",
+        "KeyName": "MyEC2Key",
+        "SecurityGroupIds": [
+          "sg-7ddbe619"
+        ],
+        "InstanceType": {
+          "Ref": "InstanceTypeParameter"
+        },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -xe\n",
+                "yum update -y aws-cfn-bootstrap\n",
+                "# Install the files and packages from the metadata\n",
+                "/opt/aws/bin/cfn-init -v ",
+                "         --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "         --resource MyEC2Instance ",
+                "         --configsets All ",
+                "         --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n",
+                "# Signal the status from cfn-init\n",
+                "/opt/aws/bin/cfn-signal -e $? --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                " --resource MyEC2Instance ",
+                " --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n"
+              ]
+            ]
+          }
+        }
+      },
+      "CreationPolicy": {
+        "ResourceSignal": {
+          "Count": "1",
+          "Timeout": "PT10M"
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "2042eff7-d31c-4904-afb0-4d2358ae7b40"
+        },
+        "AWS::CloudFormation::Init": {
+          "configSets": {
+            "All": [
+              "ConfigureSampleApp"
+            ]
+          },
+          "ConfigureSampleApp": {
+            "packages": {
+              "yum": {
+                "httpd": []
+              }
+            },
+            "files": {
+              "/var/www/html/index.html": {
+                "content": {
+                  "Fn::Join": [
+                    "\n",
+                    [
+                      "<h1>Congratulations ARTHUR!. You have successfully launched the AWS CloudFormation sample.</h1>"
+                    ]
+                  ]
+                },
+                "mode": "000644",
+                "owner": "root",
+                "group": "root"
+              }
+            },
+            "services": {
+              "sysvinit": {
+                "httpd": {
+                  "enabled": "true",
+                  "ensureRunning": "true"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "InstanceID": {
+      "Description": "The Instance ID",
+      "Value": {
+        "Ref": "MyEC2Instance"
+      }
+    },
+    "PublicIP": {
+      "Description": "Public Instance IP Address",
+      "Value": {
+        "Fn::GetAtt": [
+          "MyEC2Instance",
+          "PublicIp"
+        ]
+      }
+    },
+    "PublicDNS": {
+      "Description": "Public Instance DNS Address",
+      "Value": {
+        "Fn::GetAtt": [
+          "MyEC2Instance",
+          "PublicDnsName"
+        ]
+      }
+    }
+  }
+}
