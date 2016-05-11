@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#Allow jenkins to display javacdoc output
+
+alias jenkins='java -jar -Dhudson.model.DirectoryBrowserSupport.CSP='"\""'default-src '"'"'none'"'"'; img-src '"'"'self; style-src '"'"'self'"'"'; child-src '"'"'self'"'"'; frame-src '"'"'self'"'"';'"\""' /Applications/Jenkins/jenkins.war &'
