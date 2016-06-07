@@ -7,3 +7,11 @@ curl -X POST \
         -d @config.xml \
         -u $USER:$PASS\
         "http://$JENKINS_HOME/createItem?name=someJenkinsJob&.crumb=$CRUMB"
+        
+if [ "$?" -eq 0 ]; then
+        echo "Job created successfully"
+else
+        echo "Something went wrong"
+fi
+echo
+        
